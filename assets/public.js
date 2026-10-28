@@ -186,7 +186,7 @@
   }
 
   function parseRoute(pathname = location.pathname) {
-    const match = pathname.match(/^\/1\/g\/([^/]+)\/?$/);
+    const match = pathname.match(/^\/2\/g\/([^/]+)\/?$/);
     if (match) return { name: "category", slug: decodeURIComponent(match[1]) };
     return { name: "home" };
   }
@@ -207,15 +207,15 @@
 
     const navIndex = $("#navIndex");
     navIndex.innerHTML = (state.data.categories || []).slice(0, 5).map((cat, i) => `
-      <a href="/1/g/${escAttr(cat.slug)}" data-nav="/1/g/${escAttr(cat.slug)}" data-category-link="${escAttr(cat.slug)}">
+      <a href="/2/g/${escAttr(cat.slug)}" data-nav="/2/g/${escAttr(cat.slug)}" data-category-link="${escAttr(cat.slug)}">
         ${esc(cat.name)}<span class="nav-count">${pad(cat.count)}</span>
       </a>`).join("");
 
     const menuLinks = $("#menuLinks");
     const menuItems = [
-      { href: "/1/", name: "首页", en: "HOME", count: state.data.stats.photos, slug: "__home__", home: true },
+      { href: "/2/", name: "首页", en: "HOME", count: state.data.stats.photos, slug: "__home__", home: true },
       ...(state.data.categories || []).map((cat, i) => ({
-        href: `/1/g/${cat.slug}`, name: cat.name, en: cat.name_en, count: cat.count, slug: cat.slug, no: pad(i + 1),
+        href: `/2/g/${cat.slug}`, name: cat.name, en: cat.name_en, count: cat.count, slug: cat.slug, no: pad(i + 1),
       })),
     ];
     menuLinks.innerHTML = menuItems.map((item, i) => `
@@ -504,7 +504,7 @@
          </div>`
       : `<div class="cat-fallback"></div>`;
     return `
-      <a class="cat-card" href="/1/g/${escAttr(cat.slug)}" data-nav="/1/g/${escAttr(cat.slug)}" data-cat-card="${escAttr(cat.slug)}" data-ratio="${ratio}" data-reveal style="--delay:${(index % 2) * 90 + 40}ms">
+      <a class="cat-card" href="/2/g/${escAttr(cat.slug)}" data-nav="/2/g/${escAttr(cat.slug)}" data-cat-card="${escAttr(cat.slug)}" data-ratio="${ratio}" data-reveal style="--delay:${(index % 2) * 90 + 40}ms">
         ${image}
         <div class="cat-top">
           <span class="pill"><span class="dot"></span> CHAPTER ${pad(index + 1)}</span>
@@ -613,7 +613,7 @@
 
         <div class="cat-body">
           <div class="cat-back-line">
-            <a class="back-link" href="/1/" data-nav="/1/">
+            <a class="back-link" href="/2/" data-nav="/2/">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
               返回全部系列
             </a>
@@ -677,7 +677,7 @@
   function renderNextChapter(next, currentIndex) {
     return `
       <div class="cat-end">
-        <a class="next-chapter" href="/1/g/${escAttr(next.slug)}" data-nav="/1/g/${escAttr(next.slug)}" data-next-card>
+        <a class="next-chapter" href="/2/g/${escAttr(next.slug)}" data-nav="/2/g/${escAttr(next.slug)}" data-next-card>
           ${next.cover ? `<div class="next-bg"><img src="${escAttr(next.cover.view)}" alt="" loading="lazy" decoding="async" ${imgFadeAttrs()}></div>` : ""}
           <div class="next-inner">
             <div class="next-top">
@@ -740,7 +740,7 @@
         <div class="code">404</div>
         <h1>这一章，还没有被写下。</h1>
         <p>你访问的页面不存在，或已经被重新排列。</p>
-        <a class="btn btn-dark" href="/1/" data-nav="/1/"><span>回到首页</span><span class="btn-arrow" aria-hidden="true">↖</span></a>
+        <a class="btn btn-dark" href="/2/" data-nav="/2/"><span>回到首页</span><span class="btn-arrow" aria-hidden="true">↖</span></a>
       </div>`;
   }
 
@@ -927,7 +927,7 @@
     saveScroll();
     closeMenu({ restoreFocus: false, silent: true });
     let oldPoster = null;
-    if (trigger && path.startsWith("/1/g/")) {
+    if (trigger && path.startsWith("/2/g/")) {
       oldPoster = trigger.querySelector?.(".cat-media img");
     }
     if (oldPoster) oldPoster.style.viewTransitionName = "category-poster";
@@ -936,7 +936,7 @@
       history.pushState({ lumiere: true, scrollY: 0 }, "", path);
       window.scrollTo(0, 0);
       renderRoute();
-      if (oldPoster && path.startsWith("/1/g/")) {
+      if (oldPoster && path.startsWith("/2/g/")) {
         const newPoster = $(".cat-hero-media img");
         if (newPoster) newPoster.style.viewTransitionName = "category-poster";
       }
